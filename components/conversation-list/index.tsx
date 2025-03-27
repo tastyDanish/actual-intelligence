@@ -10,7 +10,6 @@ import {
   SidebarMenuItem,
 } from "../ui/sidebar";
 import { useConversationsList } from "@/hooks/use-conversations-list";
-import { Circle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type ConversationsListProps = {

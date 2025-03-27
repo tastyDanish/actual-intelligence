@@ -7,16 +7,14 @@ import React, {
   useContext,
   ReactNode,
   useEffect,
-  useRef,
 } from "react";
 import { ActualMessage, useChat } from "./use-chat";
-import { getRandomConversationToAnswer } from "@/utils/supabase/conversations/conversations-repo";
 
 export type ActualRole = "user" | "intelligence";
 
 interface ConversationContextType {
-  conversationId: number | null;
-  setConversationId: (id: number | null) => void;
+  conversationId: string | null;
+  setConversationId: (id: string | null) => void;
   mode: ActualRole;
   loading: boolean;
   toggleMode: () => void;

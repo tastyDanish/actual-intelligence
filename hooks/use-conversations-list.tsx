@@ -3,7 +3,7 @@ import { createClient } from "@/utils/supabase/client";
 import { useEffect, useMemo, useState } from "react";
 
 type Conversation = {
-  id: number;
+  id: string;
   title: string;
   createdAt: Date;
   updatedAt: Date;
