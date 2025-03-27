@@ -4,7 +4,7 @@ import SupabaseClient from "@supabase/supabase-js/dist/module/SupabaseClient";
 import { createNewConversation } from "./conversations-repo";
 
 type GetConversationMessagesParams = {
-  conversationId: number;
+  conversationId: string;
   supabase: SupabaseClient<Database>;
 };
 export const getConversationMessages = async ({
@@ -25,7 +25,7 @@ export const getConversationMessages = async ({
 };
 
 type CreateNewMessageParams = {
-  conversationId: number | null;
+  conversationId: string | null;
   message: string;
   supabase: SupabaseClient<Database>;
   mode: ActualRole;
@@ -42,7 +42,7 @@ export const createNewMessage = async ({
   const userId = session?.user.id ?? null;
   if (!userId) throw new Error("missing user id in add message");
 
-  let actualConversationId: number | null = conversationId;
+  let actualConversationId: string | null = conversationId;
   let createdConversation = false;
   if (!actualConversationId) {
     createdConversation = false;

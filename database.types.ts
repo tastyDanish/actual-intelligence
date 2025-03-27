@@ -12,27 +12,27 @@ export type Database = {
       chats: {
         Row: {
           author_id: string
-          conversation_id: number
+          conversation_id: string
           created_at: string
-          id: number
+          id: string
           is_intelligence: boolean
           message: string
           skip: boolean
         }
         Insert: {
           author_id: string
-          conversation_id: number
+          conversation_id?: string
           created_at?: string
-          id?: number
+          id?: string
           is_intelligence?: boolean
           message: string
           skip?: boolean
         }
         Update: {
           author_id?: string
-          conversation_id?: number
+          conversation_id?: string
           created_at?: string
-          id?: number
+          id?: string
           is_intelligence?: boolean
           message?: string
           skip?: boolean
@@ -59,7 +59,7 @@ export type Database = {
           archive: boolean
           created_at: string
           current_intelligence_id: string | null
-          id: number
+          id: string
           new_message: boolean
           owner_id: string
           title: string | null
@@ -70,7 +70,7 @@ export type Database = {
           archive?: boolean
           created_at?: string
           current_intelligence_id?: string | null
-          id?: number
+          id?: string
           new_message?: boolean
           owner_id: string
           title?: string | null
@@ -81,7 +81,7 @@ export type Database = {
           archive?: boolean
           created_at?: string
           current_intelligence_id?: string | null
-          id?: number
+          id?: string
           new_message?: boolean
           owner_id?: string
           title?: string | null
@@ -96,28 +96,34 @@ export type Database = {
         Row: {
           archive: boolean | null
           created_at: string | null
-          id: number | null
+          current_intelligence_id: string | null
+          id: string | null
           new_message: boolean | null
           owner_id: string | null
           title: string | null
+          updated_at: string | null
           waiting_on_intelligence: boolean | null
         }
         Insert: {
           archive?: boolean | null
           created_at?: string | null
-          id?: number | null
+          current_intelligence_id?: string | null
+          id?: string | null
           new_message?: boolean | null
           owner_id?: string | null
           title?: string | null
+          updated_at?: string | null
           waiting_on_intelligence?: boolean | null
         }
         Update: {
           archive?: boolean | null
           created_at?: string | null
-          id?: number | null
+          current_intelligence_id?: string | null
+          id?: string | null
           new_message?: boolean | null
           owner_id?: string | null
           title?: string | null
+          updated_at?: string | null
           waiting_on_intelligence?: boolean | null
         }
         Relationships: []

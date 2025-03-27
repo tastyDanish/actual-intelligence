@@ -48,7 +48,7 @@ export const ConversationProvider = ({
 }: ConversationProviderProps) => {
   const supabase = createClient();
   const { setOpen } = useSidebar();
-  const [conversationId, setConversationId] = useState<number | null>(null);
+  const [conversationId, setConversationId] = useState<string | null>(null);
   const [mode, setMode] = useState<"user" | "intelligence">("user");
 
   const { loading, messages, addMessage, setMessages, getRandomConversation } =

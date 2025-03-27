@@ -11,13 +11,13 @@ import {
 } from "@/utils/supabase/conversations/conversations-repo";
 
 export type ActualMessage = {
-  id: number;
+  id: string;
   content: string;
   author: ActualRole;
 };
 type UseChatProps = {
-  conversationId: number | null;
-  setConversationId: (conversationId: number | null) => void;
+  conversationId: string | null;
+  setConversationId: (conversationId: string | null) => void;
   mode: ActualRole;
 };
 export const useChat = ({

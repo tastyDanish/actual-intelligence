@@ -23,7 +23,7 @@ export const createNewConversation = async ({
 };
 
 type MarkReadParams = {
-  conversationId: number;
+  conversationId: string;
   supabase: SupabaseClient<Database>;
 };
 export const markRead = async ({
