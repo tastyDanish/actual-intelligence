@@ -60,6 +60,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
   const supabase = await createClient();
   const origin = (await headers()).get("origin");
+  console.log("here is the origin: ", origin);
   const callbackUrl = formData.get("callbackUrl")?.toString();
 
   if (!email) {
