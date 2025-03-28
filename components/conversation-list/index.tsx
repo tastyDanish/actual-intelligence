@@ -18,12 +18,12 @@ type ConversationsListProps = {
 };
 export const ConversationList = ({ userId }: ConversationsListProps) => {
   const { organizedConversations } = useConversationsList({ userId });
-  const { setOpen, isMobile } = useSidebar();
+  const { setOpenMobile, isMobile } = useSidebar();
   const { setConversationId } = useConversation();
 
   const onClickHandler = (conversationId: string) => {
     setConversationId(conversationId);
-    if (isMobile) setOpen(false);
+    if (isMobile) setOpenMobile(false);
   };
 
   return (
