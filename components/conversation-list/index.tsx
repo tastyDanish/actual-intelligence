@@ -10,7 +10,7 @@ import {
   SidebarMenuItem,
 } from "../ui/sidebar";
 import { useConversationsList } from "@/hooks/use-conversations-list";
-import { cn } from "@/lib/utils";
+import { NotificationCircle } from "../notification-circle";
 
 type ConversationsListProps = {
   userId: string;
@@ -33,19 +33,7 @@ export const ConversationList = ({ userId }: ConversationsListProps) => {
                   key={c.id}
                   onClick={() => setConversationId(c.id)}>
                   <div>
-                    <svg
-                      width="12"
-                      height="12"
-                      className={cn(
-                        "fill-accent",
-                        c.newMessage ? "opacity-100" : "opacity-0"
-                      )}>
-                      <circle
-                        cx="6"
-                        cy="6"
-                        r="6"
-                      />
-                    </svg>
+                    <NotificationCircle visible={c.newMessage} />
                   </div>
 
                   <div>{c.title}</div>

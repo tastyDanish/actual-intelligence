@@ -13,7 +13,7 @@ export const ActualBubbles = () => {
   const { mode, messages } = useConversation();
 
   return (
-    <ChatMessageList className="flex-grow min-h-0 px-20 pr-4">
+    <ChatMessageList className="flex-grow min-h-0 md:px-20">
       <AnimatePresence>
         {messages.map((message) => (
           <motion.div

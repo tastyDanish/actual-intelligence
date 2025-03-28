@@ -14,7 +14,9 @@ export const UserCallToAction = ({ visible }: UserCallToActionProps) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}>
-          <div className="text-2xl">What is on your mind?</div>
+          <div className="text-2xl whitespace-nowrap">
+            What is on your mind?
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

@@ -7,10 +7,19 @@ import React, {
   useContext,
   ReactNode,
   useEffect,
+  useMemo,
 } from "react";
 import { ActualMessage, useChat } from "./use-chat";
 
 export type ActualRole = "user" | "intelligence";
+
+export type Conversation = {
+  id: string;
+  title: string;
+  createdAt: Date;
+  updatedAt: Date;
+  newMessage: boolean;
+};
 
 interface ConversationContextType {
   conversationId: string | null;
@@ -21,6 +30,9 @@ interface ConversationContextType {
   messages: ActualMessage[];
   setMessages: (messages: ActualMessage[]) => void;
   addMessage: (message: string) => Promise<void>;
+  newMessage: boolean;
+  conversations: Conversation[];
+  setConversations: (conversations: Conversation[]) => void;
 }
 
 const ConversationContext = createContext<ConversationContextType | undefined>(
@@ -47,6 +59,7 @@ export const ConversationProvider = ({
   const supabase = createClient();
   const { setOpen } = useSidebar();
   const [conversationId, setConversationId] = useState<string | null>(null);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
   const [mode, setMode] = useState<"user" | "intelligence">("user");
 
   const { loading, messages, addMessage, setMessages, getRandomConversation } =
@@ -55,6 +68,10 @@ export const ConversationProvider = ({
       setConversationId,
       mode,
     });
+
+  const newMessage = useMemo(() => {
+    return conversations.some((c) => c.newMessage);
+  }, [conversations]);
 
   const toggleMode = () => {
     setMessages([]);
@@ -86,6 +103,9 @@ export const ConversationProvider = ({
         messages,
         setMessages,
         addMessage,
+        newMessage,
+        conversations,
+        setConversations,
       }}>
       {children}
     </ConversationContext.Provider>

@@ -20,7 +20,7 @@ export const ActualInput = () => {
   return (
     <form
       onSubmit={onSubmit}
-      className="rounded-lg border bg-card focus-within:ring-1 focus-within:ring-ring p-1 mx-32 my-5 justify-self-end">
+      className="rounded-lg border bg-card focus-within:ring-1 focus-within:ring-ring p-1 mx-2 md:mx-32 my-5 justify-self-end">
       <ChatInput
         disabled={disabled}
         placeholder="type your message"
@@ -28,13 +28,13 @@ export const ActualInput = () => {
         onChange={(e) => setInput(e.target.value)}
         className="min-h-12 resize-none rounded-lg bg-card border-0 p-3 shadow-none focus-visible:ring-0"
       />
-      <div className="flex w-full pr-5 pb-2">
+      <div className="flex w-full pr-5 pb-2 justify-end">
         <Button
           disabled={disabled}
           size="sm"
-          className="ml-auto gap-1.5">
-          Send Message
-          <CornerDownLeft className="size-3.5" />
+          className="sm:gap-1.5 p-2 sm:p-2 flex justify-center items-center">
+          <div className="hidden sm:block">Send Message</div>
+          <CornerDownLeft className="size-3.5 flex-shrink-0" />
         </Button>
       </div>
     </form>

@@ -10,7 +10,7 @@ export const IntelligenceCallToAction = ({
     <AnimatePresence>
       {visible && (
         <motion.div
-          className="w-full h-full flex items-center flex-col justify-center gap-2"
+          className="w-full h-full flex items-center flex-col justify-center gap-2 px-8 sm:px-0 text-center"
           key="modal"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

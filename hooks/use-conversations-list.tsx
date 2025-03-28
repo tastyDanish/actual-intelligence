@@ -1,21 +1,14 @@
 "use client";
 import { createClient } from "@/utils/supabase/client";
 import { useEffect, useMemo, useState } from "react";
-
-type Conversation = {
-  id: string;
-  title: string;
-  createdAt: Date;
-  updatedAt: Date;
-  newMessage: boolean;
-};
+import { Conversation, useConversation } from "./conversations-provider";
 
 type UseConversationsListProps = {
   userId: string;
 };
 export const useConversationsList = ({ userId }: UseConversationsListProps) => {
   const supabase = createClient();
-  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const { conversations, setConversations } = useConversation();
   const [channel, setChannel] = useState<any>(null);
 
   const organizedConversations = useMemo(() => {
