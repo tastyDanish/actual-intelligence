@@ -15,7 +15,7 @@ export default async function ProtectedPage() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full overflow-hidden flex-grow min-h-0">
+    <div className="flex flex-col items-center justify-center w-full overflow-hidden flex-grow">
       <AppTopBar />
 
       <ActualChat />

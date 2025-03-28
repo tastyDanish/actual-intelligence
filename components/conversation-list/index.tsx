@@ -8,6 +8,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "../ui/sidebar";
 import { useConversationsList } from "@/hooks/use-conversations-list";
 import { NotificationCircle } from "../notification-circle";
@@ -17,7 +18,14 @@ type ConversationsListProps = {
 };
 export const ConversationList = ({ userId }: ConversationsListProps) => {
   const { organizedConversations } = useConversationsList({ userId });
+  const { setOpen, isMobile } = useSidebar();
   const { setConversationId } = useConversation();
+
+  const onClickHandler = (conversationId: string) => {
+    setConversationId(conversationId);
+    if (isMobile) setOpen(false);
+  };
+
   return (
     <SidebarContent className="gap-0">
       {Array.from(organizedConversations).map((k, v) => (
@@ -31,7 +39,7 @@ export const ConversationList = ({ userId }: ConversationsListProps) => {
                 <SidebarMenuButton
                   className="flex"
                   key={c.id}
-                  onClick={() => setConversationId(c.id)}>
+                  onClick={() => onClickHandler(c.id)}>
                   <div>
                     <NotificationCircle visible={c.newMessage} />
                   </div>

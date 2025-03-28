@@ -40,7 +40,7 @@ export default function RootLayout({
           <SidebarProvider>
             <ConversationProvider>
               <AppSidebar />
-              <main className="min-h-screen flex flex-col items-center w-full justify-between max-h-screen overflow-hidden">
+              <main className="min-h-screen flex flex-col items-center w-full justify-between max-h-screen overflow-hidden max-w-screen">
                 {children}
 
                 <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-1">

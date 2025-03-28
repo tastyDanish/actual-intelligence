@@ -20,7 +20,7 @@ export const ActualInput = () => {
   return (
     <form
       onSubmit={onSubmit}
-      className="rounded-lg border bg-card focus-within:ring-1 focus-within:ring-ring p-1 mx-2 md:mx-32 my-5 justify-self-end">
+      className="rounded-lg border bg-card focus-within:ring-1 focus-within:ring-ring p-1 mx-2 lg:mx-32 my-5 justify-self-end">
       <ChatInput
         disabled={disabled}
         placeholder="type your message"
