@@ -26,7 +26,7 @@ export const ActualInput = () => {
         placeholder="type your message"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        className="min-h-12 resize-none rounded-lg bg-card border-0 p-3 shadow-none focus-visible:ring-0"
+        className="text-base min-h-12 resize-none rounded-lg bg-card border-0 p-3 shadow-none focus-visible:ring-0"
       />
       <div className="flex w-full pr-5 pb-2 justify-end">
         <Button
