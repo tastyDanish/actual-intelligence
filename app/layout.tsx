@@ -5,6 +5,7 @@ import "./globals.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { ConversationProvider } from "@/hooks/conversations-provider";
+import { AppSettingsProvider } from "@/hooks/app-settings-provider";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -37,19 +38,21 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange>
-          <SidebarProvider>
-            <ConversationProvider>
-              <AppSidebar />
-              <main className="min-h-dvh flex flex-col items-center w-full justify-between max-h-screen overflow-hidden">
-                {children}
+          <AppSettingsProvider>
+            <SidebarProvider>
+              <ConversationProvider>
+                <AppSidebar />
+                <main className="min-h-dvh flex flex-col items-center w-full justify-between max-h-screen overflow-hidden">
+                  {children}
 
-                <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-1">
-                  <p>You're talking to a real person here. Be nice!</p>
-                  <ThemeSwitcher />
-                </footer>
-              </main>
-            </ConversationProvider>
-          </SidebarProvider>
+                  <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-1">
+                    <p>You're talking to a real person here. Be nice!</p>
+                    <ThemeSwitcher />
+                  </footer>
+                </main>
+              </ConversationProvider>
+            </SidebarProvider>
+          </AppSettingsProvider>
         </ThemeProvider>
       </body>
     </html>

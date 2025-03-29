@@ -39,9 +39,11 @@ export const markRead = async ({
 
 type GetRandomConversationToAnswerParams = {
   supabase: SupabaseClient<Database>;
+  talkToSelf: boolean;
 };
 export const getRandomConversationToAnswer = async ({
   supabase,
+  talkToSelf,
 }: GetRandomConversationToAnswerParams) => {
   const userId = await getUserId({ supabase });
 
@@ -59,11 +61,17 @@ export const getRandomConversationToAnswer = async ({
     return currentConversation[0].id;
   }
 
-  const { data: newConversation, error: conversationsError } = await supabase
+  const query = supabase
     .from("random_conversations")
     .select("id")
     .limit(1)
     .eq("waiting_on_intelligence", true);
+
+  if (!talkToSelf) {
+    query.neq("owner_id", userId);
+  }
+
+  const { data: newConversation, error: conversationsError } = await query;
 
   if (conversationsError) {
     console.error("Error fetching random conversation:", conversationsError);

@@ -9,6 +9,7 @@ import {
   getRandomConversationToAnswer,
   markRead,
 } from "@/utils/supabase/conversations/conversations-repo";
+import { useAppSettings } from "./app-settings-provider";
 
 export type ActualMessage = {
   id: string;
@@ -26,6 +27,7 @@ export const useChat = ({
   mode,
 }: UseChatProps) => {
   const supabase = createClient();
+  const { settings } = useAppSettings();
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState<ActualMessage[]>([]);
   const loadingRandom = useRef(false);
@@ -81,6 +83,7 @@ export const useChat = ({
         if (mode === "intelligence") {
           const randomConversationId = await getRandomConversationToAnswer({
             supabase,
+            talkToSelf: settings.talkToSelf,
           });
           loadingRandom.current = true;
           setTimeout(() => {
@@ -110,6 +113,7 @@ export const useChat = ({
       setLoading(true);
       const randomConversationId = await getRandomConversationToAnswer({
         supabase,
+        talkToSelf: settings.talkToSelf,
       });
 
       if (mode === "intelligence") {

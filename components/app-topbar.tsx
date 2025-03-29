@@ -3,9 +3,12 @@ import { useConversation } from "@/hooks/conversations-provider";
 import { Button } from "./ui/button";
 import { SidebarTrigger, useSidebar } from "./ui/sidebar";
 import { NotificationCircle } from "./notification-circle";
+import { useUser } from "@/hooks/user-provider";
+import { AdminControls } from "./admin-controls";
 
 export const AppTopBar = () => {
   const { mode, toggleMode, loading, newMessage } = useConversation();
+  const { user } = useUser();
   const { isMobile } = useSidebar();
 
   return (
@@ -26,6 +29,7 @@ export const AppTopBar = () => {
         onClick={() => toggleMode()}>
         switch modes
       </Button>
+      {user?.role === "admin" && <AdminControls />}
     </div>
   );
 };
