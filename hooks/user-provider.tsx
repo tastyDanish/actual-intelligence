@@ -16,7 +16,6 @@ interface UserProfile {
 interface UserContextType {
   user: UserProfile | null;
   loading: boolean;
-  error: string | null;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -31,16 +30,12 @@ export const UserProvider = ({
   const supabase = createClient();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!userId) return;
 
     const fetchUser = async () => {
       setLoading(true);
-      setError(null);
-
-      console.log("userId: ", userId);
 
       const { data, error } = await supabase
         .from("profiles")
@@ -48,11 +43,11 @@ export const UserProvider = ({
         .eq("id", userId)
         .single();
 
-      console.log("here be data: ", data);
-
       if (error) {
-        console.log("we have an error boss: ", error.message);
-        setError(error.message);
+        setUser({
+          id: userId,
+          role: "user",
+        });
       } else {
         setUser({
           id: userId,
@@ -67,7 +62,7 @@ export const UserProvider = ({
   }, [userId]);
 
   return (
-    <UserContext.Provider value={{ user, loading, error }}>
+    <UserContext.Provider value={{ user, loading }}>
       {children}
     </UserContext.Provider>
   );

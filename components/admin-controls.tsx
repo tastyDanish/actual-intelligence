@@ -5,7 +5,7 @@ export const AdminControls = () => {
   const { settings, setSettings } = useAppSettings();
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center space-x-2 text-right">
       <Checkbox
         id="talk"
         checked={settings.talkToSelf}
@@ -13,7 +13,7 @@ export const AdminControls = () => {
           setSettings({ ...settings, talkToSelf: !settings.talkToSelf })
         }
       />
-      <label htmlFor="talk">Talk to Self Mode</label>
+      <label htmlFor="talk">selftalk</label>
     </div>
   );
 };

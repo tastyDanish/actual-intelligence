@@ -5,6 +5,7 @@ import { ActualInput } from "./actual-input";
 import { IntelligenceCallToAction } from "./intelligence-call-to-action";
 import { ActualLoader } from "../actual-loader";
 import { UserCallToAction } from "./user-call-to-action";
+import { IntelligencePrompt } from "./intelligence-prompt";
 
 export const ActualChat = () => {
   const { mode, conversationId, loading, messages } = useConversation();
@@ -19,7 +20,10 @@ export const ActualChat = () => {
         conversationId == null ? (
           <IntelligenceCallToAction />
         ) : (
-          <ActualBubbles />
+          <>
+            <IntelligencePrompt />
+            <ActualBubbles />
+          </>
         )
       ) : (
         <>

@@ -30,6 +30,7 @@ export const ActualBubbles = () => {
                 fallback={message.author === "intelligence" ? "AI" : "US"}
               />
               <ChatBubbleMessage
+                className="py-2 px-4"
                 variant={message.author === mode ? "sent" : "received"}>
                 {message.content}
               </ChatBubbleMessage>

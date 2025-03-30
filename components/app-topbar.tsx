@@ -9,7 +9,7 @@ import { AdminControls } from "./admin-controls";
 export const AppTopBar = () => {
   const { mode, toggleMode, loading, newMessage } = useConversation();
   const { user } = useUser();
-  const { isMobile } = useSidebar();
+  const { isMobile, open } = useSidebar();
 
   return (
     <div className="grid w-full pt-4 grid-cols-3 justify-self-start">
@@ -17,19 +17,20 @@ export const AppTopBar = () => {
         <div className="justify-self-start flex relative">
           <SidebarTrigger className="justify-self-start" />
           <div className="absolute right-0">
-            <NotificationCircle visible={newMessage && isMobile} />
+            <NotificationCircle visible={newMessage && (isMobile || !open)} />
           </div>
         </div>
       ) : (
-        <div />
+        <div>{newMessage && <div className="text-accent">New Reply!</div>}</div>
       )}
+      {user?.role === "admin" && <AdminControls />}
+
       <Button
-        className="justify-self-center"
+        className="justify-self-end mr-4"
         disabled={loading}
         onClick={() => toggleMode()}>
-        switch modes
+        {mode === "intelligence" ? "Be a User" : "Be the AI"}
       </Button>
-      {user?.role === "admin" && <AdminControls />}
     </div>
   );
 };
