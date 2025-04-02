@@ -13,7 +13,11 @@ export async function ActualSidebar() {
 
   const allowedRoutes = ["/protected"];
   if (!user || !allowedRoutes.some((route) => pathname.startsWith(route)))
-    return <div>uh something is weird here...</div>;
+    return (
+      <div>
+        {pathname} and {user?.id}
+      </div>
+    );
 
   return <SidebarDataWrapper userId={user.id} />;
 }
