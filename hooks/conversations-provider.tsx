@@ -29,6 +29,7 @@ interface ConversationContextType {
   toggleMode: () => void;
   messages: ActualMessage[];
   setMessages: (messages: ActualMessage[]) => void;
+  getMessages: () => Promise<void>;
   addMessage: (message: string) => Promise<void>;
   newMessage: boolean;
   conversations: Conversation[];
@@ -62,12 +63,18 @@ export const ConversationProvider = ({
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [mode, setMode] = useState<"user" | "intelligence">("user");
 
-  const { loading, messages, addMessage, setMessages, getRandomConversation } =
-    useChat({
-      conversationId,
-      setConversationId,
-      mode,
-    });
+  const {
+    loading,
+    messages,
+    addMessage,
+    setMessages,
+    getRandomConversation,
+    getMessages,
+  } = useChat({
+    conversationId,
+    setConversationId,
+    mode,
+  });
 
   const newMessage = useMemo(() => {
     return conversations.some((c) => c.newMessage);
@@ -104,6 +111,7 @@ export const ConversationProvider = ({
         setMessages,
         addMessage,
         newMessage,
+        getMessages,
         conversations,
         setConversations,
       }}>

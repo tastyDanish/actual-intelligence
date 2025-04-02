@@ -13,10 +13,10 @@
     --primary: 210 0% 9%;
     --primary-hover: 30, 50%, 50%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 30 0% 96.1%;
+    --secondary: 30, 70%, 50%;
     --secondary-hover: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
+    --muted: 0 0% 80%;
     --muted-foreground: 0 0% 45.1%;
     --accent: 30, 70%, 50%;
     --accent-foreground: 0 0% 9%;

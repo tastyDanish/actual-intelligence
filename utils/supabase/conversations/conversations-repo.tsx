@@ -33,7 +33,8 @@ export const markRead = async ({
   const { error, data } = await supabase
     .from("conversations")
     .update({ new_message: false })
-    .eq("id", conversationId);
+    .eq("id", conversationId)
+    .eq("new_message", true);
   if (error) throw error;
 };
 
@@ -65,7 +66,8 @@ export const getRandomConversationToAnswer = async ({
     .from("random_conversations")
     .select("id")
     .limit(1)
-    .eq("waiting_on_intelligence", true);
+    .eq("waiting_on_intelligence", true)
+    .is("current_intelligence_id", null);
 
   if (!talkToSelf) {
     query.neq("owner_id", userId);
@@ -87,8 +89,12 @@ export const getRandomConversationToAnswer = async ({
         current_intelligence_id: userId,
       })
       .eq("id", conversationId);
+
     if (assignError) {
-      console.error("error assigning user to conversation:", assignError);
+      console.error(
+        "error assigning user to conversation:",
+        assignError.message
+      );
       return null;
     }
 

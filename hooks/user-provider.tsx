@@ -11,6 +11,7 @@ import { createClient } from "@/utils/supabase/client";
 interface UserProfile {
   id: string;
   role: string;
+  name: string;
 }
 
 interface UserContextType {
@@ -39,7 +40,7 @@ export const UserProvider = ({
 
       const { data, error } = await supabase
         .from("profiles")
-        .select("*")
+        .select("id, display_name, role")
         .eq("id", userId)
         .single();
 
@@ -47,11 +48,13 @@ export const UserProvider = ({
         setUser({
           id: userId,
           role: "user",
+          name: "unknown-user",
         });
       } else {
         setUser({
           id: userId,
           role: data == null ? "user" : (data?.role as "user" | "admin"),
+          name: data?.display_name ?? "unknown-user",
         });
       }
 

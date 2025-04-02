@@ -1,6 +1,6 @@
 "use client";
 import { createClient } from "@/utils/supabase/client";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Conversation, useConversation } from "./conversations-provider";
 
 type UseConversationsListProps = {
@@ -8,7 +8,8 @@ type UseConversationsListProps = {
 };
 export const useConversationsList = ({ userId }: UseConversationsListProps) => {
   const supabase = createClient();
-  const { conversations, setConversations } = useConversation();
+  const { conversations, setConversations, conversationId, getMessages } =
+    useConversation();
   const [channel, setChannel] = useState<any>(null);
 
   const organizedConversations = useMemo(() => {
@@ -65,7 +66,7 @@ export const useConversationsList = ({ userId }: UseConversationsListProps) => {
     }
   };
 
-  const subscribe = () => {
+  const subscribe = useCallback(() => {
     if (channel) channel.unsubscribe(); // Prevent duplicate subscriptions
 
     const newChannel = supabase
@@ -77,16 +78,24 @@ export const useConversationsList = ({ userId }: UseConversationsListProps) => {
           if (
             (payload.eventType === "INSERT" ||
               payload.eventType === "UPDATE") &&
-            payload.new.owner_id === userId
+            (payload.new.owner_id === userId ||
+              payload.new.current_intelligence_id === userId)
           ) {
             await fetchConversations();
+            if (
+              conversationId === payload.new.id &&
+              (payload.new.new_message ||
+                payload.new.current_intelligence_id === userId)
+            ) {
+              await getMessages();
+            }
           }
         }
       )
       .subscribe();
 
     setChannel(newChannel);
-  };
+  }, [conversationId]);
 
   useEffect(() => {
     fetchConversations();
@@ -105,7 +114,7 @@ export const useConversationsList = ({ userId }: UseConversationsListProps) => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       if (channel) channel.unsubscribe();
     };
-  }, []);
+  }, [subscribe]);
 
   return { conversations, organizedConversations };
 };

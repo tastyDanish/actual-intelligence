@@ -13,9 +13,9 @@ export const UserCallToAction = ({ visible }: UserCallToActionProps) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}>
-          <div className="text-2xl whitespace-nowrap">
-            What is on your mind?
+          transition={{ duration: 0.5, delay: 0.3 }}>
+          <div className="text-2xl text-center">
+            How can Actual Intelligence help?
           </div>
         </motion.div>
       )}

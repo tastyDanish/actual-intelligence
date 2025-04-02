@@ -1,5 +1,5 @@
 "use client";
-import { useConversation } from "@/hooks/conversations-provider";
+import { Conversation, useConversation } from "@/hooks/conversations-provider";
 import {
   SidebarContent,
   SidebarGroup,
@@ -10,14 +10,14 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "../ui/sidebar";
-import { useConversationsList } from "@/hooks/use-conversations-list";
 import { NotificationCircle } from "../notification-circle";
 
 type ConversationsListProps = {
-  userId: string;
+  organizedConversations: Map<string, Conversation[]>;
 };
-export const ConversationList = ({ userId }: ConversationsListProps) => {
-  const { organizedConversations } = useConversationsList({ userId });
+export const ConversationList = ({
+  organizedConversations,
+}: ConversationsListProps) => {
   const { setOpenMobile, isMobile } = useSidebar();
   const { setConversationId } = useConversation();
 

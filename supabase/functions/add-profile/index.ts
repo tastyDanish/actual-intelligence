@@ -5,6 +5,7 @@ Deno.serve(async (req: Request) => {
   if (req.method === "POST") {
     const { record } = await req.json();
     const user_id = record.id;
+    const displayName = record.raw_user_meta_data?.display_name || "Unknown";
 
     const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL")!,
@@ -14,7 +15,7 @@ Deno.serve(async (req: Request) => {
     // Insert a new profile with the default role
     const { data, error } = await supabaseClient
       .from("profiles")
-      .insert([{ id: user_id, role: "user" }])
+      .insert([{ id: user_id, role: "user", display_name: displayName }])
       .select()
       .limit(1)
       .single();

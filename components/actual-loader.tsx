@@ -7,7 +7,7 @@ export const ActualLoader = () => {
       <motion.div
         animate={{ opacity: 1, rotate: [0, 0, 180, 180, 0] }}
         initial={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.3, delay: 0.3 }}
         exit={{ opacity: 0 }}>
         <Loader size={128} />
       </motion.div>

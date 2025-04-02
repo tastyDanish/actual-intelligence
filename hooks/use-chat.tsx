@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ActualRole } from "./conversations-provider";
 import {
   createNewMessage,
@@ -11,10 +11,19 @@ import {
 } from "@/utils/supabase/conversations/conversations-repo";
 import { useAppSettings } from "./app-settings-provider";
 
+export type Author = {
+  id: string;
+  name: string;
+  role: ActualRole;
+};
+
 export type ActualMessage = {
   id: string;
   content: string;
-  author: ActualRole;
+  author: Author;
+  like: boolean | null;
+  isLastInGroup: boolean;
+  isFirstInGroup: boolean;
 };
 type UseChatProps = {
   conversationId: string | null;
@@ -36,20 +45,49 @@ export const useChat = ({
     try {
       if (!conversationId) {
         setLoading(false);
-        return [];
+        return;
       }
       setLoading(true);
 
       const data = await getConversationMessages({ conversationId, supabase });
 
-      if (data) {
-        setMessages(
-          data.map((s) => ({
-            id: s.id,
-            content: s.message,
-            author: s.is_intelligence ? "intelligence" : "user",
-          }))
-        );
+      if (data && data.length > 0) {
+        const groupedMessages: ActualMessage[] = [];
+        const first = data[0];
+        let prevMessage: ActualMessage = {
+          id: first.id,
+          content: first.message,
+          like: first.like,
+          author: {
+            id: first.author.id,
+            name: first.author.display_name,
+            role: first.is_intelligence ? "intelligence" : "user",
+          },
+          isLastInGroup: true,
+          isFirstInGroup: true,
+        };
+        data.slice(1).forEach((d) => {
+          if (prevMessage.author.id === d.author.id) {
+            prevMessage.isLastInGroup = false;
+          }
+          const message: ActualMessage = {
+            id: d.id,
+            content: d.message,
+            like: d.like,
+            author: {
+              id: d.author.id,
+              name: d.author.display_name,
+              role: d.is_intelligence ? "intelligence" : "user",
+            },
+            isLastInGroup: true,
+            isFirstInGroup: prevMessage.author.id !== d.author.id,
+          };
+
+          groupedMessages.push(prevMessage);
+          prevMessage = message;
+        });
+        groupedMessages.push(prevMessage);
+        setMessages(groupedMessages);
         if (mode === "user") {
           await markRead({ conversationId, supabase });
         }
@@ -59,7 +97,7 @@ export const useChat = ({
     } finally {
       if (!loadingRandom.current) setLoading(false);
     }
-  }, [conversationId, supabase]);
+  }, [conversationId, supabase, setMessages]);
 
   useEffect(() => {
     if (conversationId) {

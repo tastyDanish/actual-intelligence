@@ -13,7 +13,9 @@ export const getConversationMessages = async ({
 }: GetConversationMessagesParams) => {
   const { data, error, status } = await supabase
     .from("chats")
-    .select("*")
+    .select(
+      "id, message, is_intelligence, like, author:profiles!author_id (id, display_name)"
+    )
     .eq("skip", false)
     .eq("conversation_id", conversationId);
 
@@ -74,16 +76,28 @@ export const createNewMessage = async ({
           updated_at,
         })
         .eq("id", actualConversationId);
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
     } else if (mode === "user" && !createdConversation) {
+      const { data: conversation } = await supabase
+        .from("conversations")
+        .select("waiting_on_intelligence, current_intelligence_id")
+        .eq("id", actualConversationId)
+        .single();
       const { error } = await supabase
         .from("conversations")
         .update({
-          waiting_on_intelligence: true,
+          waiting_on_intelligence:
+            conversation?.current_intelligence_id == null
+              ? true
+              : Boolean(conversation?.waiting_on_intelligence),
           updated_at,
         })
         .eq("id", actualConversationId);
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
     }
   }
   return actualConversationId;

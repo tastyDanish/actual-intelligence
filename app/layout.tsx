@@ -3,9 +3,9 @@ import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import "./globals.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
 import { ConversationProvider } from "@/hooks/conversations-provider";
 import { AppSettingsProvider } from "@/hooks/app-settings-provider";
+import { ActualSidebar } from "@/components/actual-sidebar";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -41,7 +41,7 @@ export default function RootLayout({
           <AppSettingsProvider>
             <SidebarProvider>
               <ConversationProvider>
-                <AppSidebar />
+                <ActualSidebar />
                 <main className="min-h-dvh flex flex-col items-center w-full justify-between max-h-screen overflow-hidden">
                   {children}
 

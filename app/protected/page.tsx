@@ -1,5 +1,5 @@
 import { ActualChat } from "@/components/actual-chat";
-import { AppTopBar } from "@/components/app-topbar";
+import { ActualTopbar } from "@/components/actual-topbar";
 import { UserProvider } from "@/hooks/user-provider";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
@@ -18,7 +18,7 @@ export default async function ProtectedPage() {
   return (
     <UserProvider userId={user.id}>
       <div className="flex flex-col items-center justify-center w-full overflow-hidden flex-grow">
-        <AppTopBar />
+        <ActualTopbar />
 
         <ActualChat />
       </div>
