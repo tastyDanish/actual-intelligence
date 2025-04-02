@@ -16,7 +16,9 @@ export default async function ProtectedPage() {
   }
 
   return (
-    <UserProvider userId={user.id}>
+    <UserProvider
+      userId={user.id}
+      displayName={user.user_metadata.display_name}>
       <div className="flex flex-col items-center justify-center w-full overflow-hidden flex-grow">
         <ActualTopbar />
 

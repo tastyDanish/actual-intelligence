@@ -23,9 +23,11 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({
   userId,
+  displayName,
   children,
 }: {
   userId: string;
+  displayName: string;
   children: ReactNode;
 }) => {
   const supabase = createClient();
@@ -45,10 +47,13 @@ export const UserProvider = ({
         .single();
 
       if (error) {
+        await supabase
+          .from("profiles")
+          .insert({ id: userId, role: "user", display_name: displayName });
         setUser({
           id: userId,
           role: "user",
-          name: "unknown-user",
+          name: displayName,
         });
       } else {
         setUser({
