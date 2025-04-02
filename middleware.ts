@@ -5,10 +5,6 @@ export async function middleware(request: NextRequest) {
   // Call your existing updateSession function
   const response = await updateSession(request);
 
-  // Inject the current pathname into headers
-  const url = new URL(request.nextUrl);
-  response.headers.set("x-next-pathname", url.pathname);
-
   return response;
 }
 
