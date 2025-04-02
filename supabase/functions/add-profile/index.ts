@@ -7,6 +7,8 @@ Deno.serve(async (req: Request) => {
     const user_id = record.id;
     const displayName = record.raw_user_meta_data?.display_name || "Unknown";
 
+    console.log("we have this record: ", record);
+
     const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,

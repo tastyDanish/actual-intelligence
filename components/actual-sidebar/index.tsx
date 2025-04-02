@@ -12,6 +12,8 @@ export async function ActualSidebar() {
   } = await supabase.auth.getUser();
 
   const allowedRoutes = ["/protected"];
+  console.log("here is our user: ", user);
+  console.log("here is our route: ", pathname);
   if (!user || !allowedRoutes.some((route) => pathname.startsWith(route)))
     return null;
 
