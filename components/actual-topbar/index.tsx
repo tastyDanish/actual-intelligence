@@ -5,6 +5,7 @@ import { UserMenu } from "../user-menu";
 import { SidebarButton } from "./sidebar-button";
 import { Leaderboard } from "./leaderboard";
 import { ModeSwitch } from "./mode-switch";
+import { useToast } from "@/hooks/use-toast";
 
 export const ActualTopbar = () => {
   const { mode, toggleMode, loading, newMessage } = useConversation();
@@ -17,7 +18,6 @@ export const ActualTopbar = () => {
         showNotification={newMessage && (isMobile || !open)}
       />
       {/* {user?.role === "admin" && <AdminControls />} */}
-
       <div className="flex justify-self-center gap-2">
         <Leaderboard isMobile={isMobile} />
 

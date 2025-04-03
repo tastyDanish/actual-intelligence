@@ -1,27 +1,20 @@
 import React from "react";
 
 import { DropdownMenuItem } from "./dropdown-menu";
-import { CrossIcon } from "lucide-react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogOverlay,
-  DialogPortal,
-  DialogTrigger,
-} from "./dialog";
+import { Dialog, DialogContent, DialogTrigger } from "./dialog";
 
 interface DialogItemProps
   extends React.ComponentPropsWithoutRef<typeof DropdownMenuItem> {
   triggerChildren: React.ReactNode;
   children: React.ReactNode;
   onSelect?: () => void;
+  open: boolean;
   onOpenChange?: (open: boolean) => void;
 }
 
 export const DialogItem = React.forwardRef<HTMLDivElement, DialogItemProps>(
   (
-    { triggerChildren, children, onSelect, onOpenChange, ...itemProps },
+    { triggerChildren, children, onSelect, onOpenChange, open, ...itemProps },
     forwardedRef
   ) => {
     return (
@@ -38,7 +31,7 @@ export const DialogItem = React.forwardRef<HTMLDivElement, DialogItemProps>(
             {triggerChildren}
           </DropdownMenuItem>
         </DialogTrigger>
-        <DialogContent className="max-w-[90%] sm-max-w-md">
+        <DialogContent className="max-w-fit sm-max-w-md">
           {children}
         </DialogContent>
       </Dialog>

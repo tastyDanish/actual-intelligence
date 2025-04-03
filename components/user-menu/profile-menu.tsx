@@ -1,11 +1,9 @@
+"use client";
 import { UserRoundPen } from "lucide-react";
 import { DialogItem } from "../ui/dialog-item";
-import {
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
+import { DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
+import { ProfileForm } from "./profile-form";
+import { useState } from "react";
 
 type ProfileMenuProps = {
   handleDialogItemSelect: () => void;
@@ -16,8 +14,20 @@ export const ProfileMenu = ({
   handleDialogItemSelect,
   handleDialogItemOpenChange,
 }: ProfileMenuProps) => {
+  const [open, setOpen] = useState(false);
+
+  const handleSubmit = () => {
+    setOpen(false);
+    handleDialogItemOpenChange(false);
+  };
+  const handleOpenChange = (e: boolean) => {
+    setOpen(e);
+    handleDialogItemOpenChange(e);
+  };
+
   return (
     <DialogItem
+      open={open}
       triggerChildren={
         <div className="flex gap-4 items-center justify-between w-full">
           <UserRoundPen size={18} />
@@ -25,14 +35,12 @@ export const ProfileMenu = ({
         </div>
       }
       onSelect={handleDialogItemSelect}
-      onOpenChange={handleDialogItemOpenChange}>
+      onOpenChange={handleOpenChange}>
       <DialogTitle>Profile</DialogTitle>
       <DialogHeader>
-        <DialogDescription>
-          You would be able to edit your profile here when you can.
-        </DialogDescription>
+        <DialogDescription>Change your Avatar and hat!</DialogDescription>
       </DialogHeader>
-      <DialogFooter>footer</DialogFooter>
+      <ProfileForm handleSubmit={handleSubmit} />
     </DialogItem>
   );
 };

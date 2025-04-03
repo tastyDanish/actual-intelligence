@@ -15,6 +15,8 @@ export type Author = {
   id: string;
   name: string;
   role: ActualRole;
+  avatar: string | null;
+  hat: string | null;
 };
 
 export type ActualMessage = {
@@ -62,6 +64,8 @@ export const useChat = ({
             id: first.author.id,
             name: first.author.display_name,
             role: first.is_intelligence ? "intelligence" : "user",
+            avatar: first.author.avatar,
+            hat: first.author.hat,
           },
           isLastInGroup: true,
           isFirstInGroup: true,
@@ -78,6 +82,8 @@ export const useChat = ({
               id: d.author.id,
               name: d.author.display_name,
               role: d.is_intelligence ? "intelligence" : "user",
+              avatar: d.author.avatar,
+              hat: d.author.hat,
             },
             isLastInGroup: true,
             isFirstInGroup: prevMessage.author.id !== d.author.id,

@@ -5,18 +5,30 @@ import {
   useEffect,
   useState,
   ReactNode,
+  useCallback,
 } from "react";
 import { createClient } from "@/utils/supabase/client";
+import {
+  insertProfile,
+  updateProfile,
+} from "@/utils/supabase/profiles/profile-repo";
+
+export type Avatar = {
+  name: string | null;
+  hat: string | null;
+};
 
 interface UserProfile {
   id: string;
   role: string;
   name: string;
+  avatar: Avatar;
 }
 
 interface UserContextType {
   user: UserProfile | null;
   loading: boolean;
+  updateAvatar: (avatar: Avatar) => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -34,43 +46,66 @@ export const UserProvider = ({
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const fetchUser = useCallback(async () => {
+    setLoading(true);
+
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("id, display_name, role, avatar, hat")
+      .eq("id", userId)
+      .single();
+
+    if (error) {
+      const newUser = await insertProfile({
+        supabase,
+        id: userId,
+        displayName,
+      });
+      if (newUser)
+        setUser({
+          id: newUser.id,
+          role: newUser.role,
+          name: newUser.display_name,
+          avatar: {
+            name: newUser?.avatar,
+            hat: newUser?.hat,
+          },
+        });
+    } else {
+      setUser({
+        id: userId,
+        role: data == null ? "user" : (data?.role as "user" | "admin"),
+        name: data?.display_name ?? "unknown-user",
+        avatar: {
+          name: data?.avatar,
+          hat: data?.hat,
+        },
+      });
+    }
+
+    setLoading(false);
+  }, [userId]);
+
   useEffect(() => {
     if (!userId) return;
-
-    const fetchUser = async () => {
-      setLoading(true);
-
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("id, display_name, role")
-        .eq("id", userId)
-        .single();
-
-      if (error) {
-        await supabase
-          .from("profiles")
-          .insert({ id: userId, role: "user", display_name: displayName });
-        setUser({
-          id: userId,
-          role: "user",
-          name: displayName,
-        });
-      } else {
-        setUser({
-          id: userId,
-          role: data == null ? "user" : (data?.role as "user" | "admin"),
-          name: data?.display_name ?? "unknown-user",
-        });
-      }
-
-      setLoading(false);
-    };
-
     fetchUser();
   }, [userId]);
 
+  const updateAvatar = async (avatar: Avatar) => {
+    setLoading(true);
+    const data = await updateProfile({
+      supabase,
+      userId,
+      avatar,
+    });
+    if (data && user) {
+      setUser({ ...user, avatar: { name: data.avatar, hat: data.hat } });
+    }
+    setLoading(false);
+  };
+
   return (
-    <UserContext.Provider value={{ user, loading }}>
+    <UserContext.Provider value={{ user, loading, updateAvatar }}>
       {children}
     </UserContext.Provider>
   );

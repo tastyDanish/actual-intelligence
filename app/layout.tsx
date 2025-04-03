@@ -6,6 +6,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { ConversationProvider } from "@/hooks/conversations-provider";
 import { AppSettingsProvider } from "@/hooks/app-settings-provider";
 import { ActualSidebar } from "@/components/actual-sidebar";
+import { Toaster } from "@/components/ui/toaster";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -50,6 +51,7 @@ export default function RootLayout({
                     <ThemeSwitcher />
                   </footer>
                 </main>
+                <Toaster />
               </ConversationProvider>
             </SidebarProvider>
           </AppSettingsProvider>

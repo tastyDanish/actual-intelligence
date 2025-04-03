@@ -14,7 +14,7 @@ export const getConversationMessages = async ({
   const { data, error, status } = await supabase
     .from("chats")
     .select(
-      "id, message, is_intelligence, like, author:profiles!author_id (id, display_name)"
+      "id, message, is_intelligence, like, author:profiles!author_id (id, display_name, avatar, hat)"
     )
     .eq("skip", false)
     .eq("conversation_id", conversationId);

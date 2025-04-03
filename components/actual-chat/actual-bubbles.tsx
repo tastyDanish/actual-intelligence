@@ -2,15 +2,11 @@ import { useConversation } from "@/hooks/conversations-provider";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
-import {
-  ChatBubble,
-  ChatBubbleAvatar,
-  ChatBubbleMessage,
-} from "../ui/chat/chat-bubble";
+import { ChatBubble, ChatBubbleMessage } from "../ui/chat/chat-bubble";
 import { ChatMessageList } from "../ui/chat/chat-message-list";
 import { useUser } from "@/hooks/user-provider";
 import { LikeButton } from "./like-button";
-import { useMemo } from "react";
+import { ActualAvatar } from "./actual-avatar";
 
 export const ActualBubbles = () => {
   const { user } = useUser();
@@ -33,15 +29,14 @@ export const ActualBubbles = () => {
                   message.author.role === mode ? "flex-row-reverse" : ""
                 )}
                 variant={message.author.role === mode ? "sent" : "received"}>
-                <ChatBubbleAvatar
-                  className={cn(
-                    message.isLastInGroup ? "opacity-100" : "opacity-0"
-                  )}
+                <ActualAvatar
+                  hat={message.author.hat}
+                  avatar={message.author.avatar}
+                  visible={message.isLastInGroup}
                   fallback={
                     message.author.role === "intelligence" ? "AI" : "US"
                   }
                 />
-
                 <div className="flex flex-col">
                   {message.isFirstInGroup && message.author.id !== user?.id && (
                     <div
