@@ -14,10 +14,12 @@ export const getConversationMessages = async ({
   const { data, error, status } = await supabase
     .from("chats")
     .select(
-      "id, message, is_intelligence, like, author:profiles!author_id (id, display_name, avatar, hat)"
+      "id, message, is_intelligence, like, author:profiles!author_id (id, display_name, avatar, hat)",
     )
     .eq("skip", false)
-    .eq("conversation_id", conversationId);
+    .eq("conversation_id", conversationId).order("created_at", {
+      ascending: true,
+    });
 
   if (error && status !== 406) {
     console.log(error);
@@ -88,10 +90,9 @@ export const createNewMessage = async ({
       const { error } = await supabase
         .from("conversations")
         .update({
-          waiting_on_intelligence:
-            conversation?.current_intelligence_id == null
-              ? true
-              : Boolean(conversation?.waiting_on_intelligence),
+          waiting_on_intelligence: conversation?.current_intelligence_id == null
+            ? true
+            : Boolean(conversation?.waiting_on_intelligence),
           updated_at,
         })
         .eq("id", actualConversationId);
