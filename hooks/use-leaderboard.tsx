@@ -1,15 +1,18 @@
 "use client";
 import { createClient } from "@/utils/supabase/client";
 import { useCallback, useEffect, useState } from "react";
+import { Avatar } from "./user-provider";
 
 type ChatLeader = {
   displayName: string;
   chatCount: number;
+  avatar: Avatar;
 };
 
 type LikeLeader = {
   displayName: string;
   likeCount: number;
+  avatar: Avatar;
 };
 
 export const UseLeaderboard = () => {
@@ -22,12 +25,12 @@ export const UseLeaderboard = () => {
       setLoading(true);
       const { data: chatCounts } = await supabase
         .from("author_counts")
-        .select("display_name, chat_count")
+        .select("display_name, chat_count, avatar, hat")
         .order("chat_count", { ascending: false });
 
       const { data: likeCounts } = await supabase
         .from("author_likes")
-        .select("display_name, like_count")
+        .select("display_name, like_count, avatar, hat")
         .order("like_count", { ascending: false });
 
       if (chatCounts) {
@@ -35,6 +38,10 @@ export const UseLeaderboard = () => {
           chatCounts.map((d) => ({
             displayName: d.display_name,
             chatCount: d.chat_count,
+            avatar: {
+              name: d.avatar,
+              hat: d.hat,
+            },
           }))
         );
       }
@@ -44,6 +51,10 @@ export const UseLeaderboard = () => {
           likeCounts.map((d) => ({
             displayName: d.display_name,
             likeCount: d.like_count,
+            avatar: {
+              name: d.avatar,
+              hat: d.hat,
+            },
           }))
         );
       }
