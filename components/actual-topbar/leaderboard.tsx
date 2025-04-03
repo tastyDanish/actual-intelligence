@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import { UseLeaderboard } from "@/hooks/use-leaderboard";
 import { ChatBubbleAvatar } from "../ui/chat/chat-bubble";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { ActualAvatar } from "../actual-chat/actual-avatar";
 
 type LeaderboardProps = {
   isMobile: boolean;
@@ -37,15 +38,21 @@ export const Leaderboard = ({ isMobile }: LeaderboardProps) => {
                 <TabsTrigger value="chats">Most Chats</TabsTrigger>
                 <TabsTrigger value="likes">Most Likes</TabsTrigger>
               </TabsList>
-              <TabsContent value="chats">
-                <div className="flex w-full flex-col items-center gap-2">
+              <TabsContent
+                value="chats"
+                className="pt-2">
+                <div className="flex w-full flex-col items-center gap-4">
                   {chatLeaders.map((l, i) => (
                     <div
                       key={i}
                       className="flex gap-8 rounded-md border py-2 px-8 items-center justify-between ">
                       <div>{i + 1}</div>
                       <div className="flex items-center gap-2">
-                        <ChatBubbleAvatar fallback="US" />
+                        <ActualAvatar
+                          avatar={l.avatar.name}
+                          hat={l.avatar.hat}
+                          fallback="US"
+                        />
                         <div>{l.displayName}</div>
                       </div>
 
@@ -62,7 +69,11 @@ export const Leaderboard = ({ isMobile }: LeaderboardProps) => {
                       className="flex gap-8 rounded-md border py-2 px-8 items-center justify-between ">
                       <div>{i + 1}</div>
                       <div className="flex items-center gap-2">
-                        <ChatBubbleAvatar fallback="US" />
+                        <ActualAvatar
+                          avatar={l.avatar.name}
+                          hat={l.avatar.hat}
+                          fallback="US"
+                        />
                         <div>{l.displayName}</div>
                       </div>
 

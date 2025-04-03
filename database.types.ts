@@ -146,15 +146,19 @@ export type Database = {
       author_counts: {
         Row: {
           author_id: string | null
+          avatar: string | null
           chat_count: number | null
           display_name: string | null
+          hat: string | null
         }
         Relationships: []
       }
       author_likes: {
         Row: {
           author_id: string | null
+          avatar: string | null
           display_name: string | null
+          hat: string | null
           like_count: number | null
         }
         Relationships: []
